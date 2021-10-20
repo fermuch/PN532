@@ -1,57 +1,57 @@
 #include "Ndef.h"
 
 // Borrowed from Adafruit_NFCShield_I2C
-void PrintHex(const byte * data, const long numBytes)
+void PrintHex(const byte *data, const long numBytes)
 {
   uint32_t szPos;
-  for (szPos=0; szPos < numBytes; szPos++)
+  for (szPos = 0; szPos < numBytes; szPos++)
   {
-    Serial.print("0x");
+    printf("0x");
     // Append leading 0 for small values
     if (data[szPos] <= 0xF)
-      Serial.print("0");
-    Serial.print(data[szPos]&0xff, HEX);
+      printf("0");
+    printf("%02X", data[szPos] & 0xff);
     if ((numBytes > 1) && (szPos != numBytes - 1))
     {
-      Serial.print(" ");
+      printf(" ");
     }
   }
-  Serial.println("");
+  printf("\n");
 }
 
 // Borrowed from Adafruit_NFCShield_I2C
-void PrintHexChar(const byte * data, const long numBytes)
+void PrintHexChar(const byte *data, const long numBytes)
 {
   uint32_t szPos;
-  for (szPos=0; szPos < numBytes; szPos++)
+  for (szPos = 0; szPos < numBytes; szPos++)
   {
     // Append leading 0 for small values
     if (data[szPos] <= 0xF)
-      Serial.print("0");
-    Serial.print(data[szPos], HEX);
+      printf("0");
+    printf("%02X", data[szPos]);
     if ((numBytes > 1) && (szPos != numBytes - 1))
     {
-      Serial.print(" ");
+      printf(" ");
     }
   }
-  Serial.print("  ");
-  for (szPos=0; szPos < numBytes; szPos++)
+  printf("  ");
+  for (szPos = 0; szPos < numBytes; szPos++)
   {
     if (data[szPos] <= 0x1F)
-      Serial.print(".");
+      printf(".");
     else
-      Serial.print((char)data[szPos]);
+      printf("%c", static_cast<char>(data[szPos]));
   }
-  Serial.println("");
+  printf("\n");
 }
 
 // Note if buffer % blockSize != 0, last block will not be written
-void DumpHex(const byte * data, const long numBytes, const unsigned int blockSize)
+void DumpHex(const byte *data, const long numBytes, const unsigned int blockSize)
 {
-    int i;
-    for (i = 0; i < (numBytes / blockSize); i++)
-    {
-        PrintHexChar(data, blockSize);
-        data += blockSize;
-    }
+  int i;
+  for (i = 0; i < (numBytes / blockSize); i++)
+  {
+    PrintHexChar(data, blockSize);
+    data += blockSize;
+  }
 }
